@@ -6,7 +6,7 @@ import PrivateRoute from "@/components/PrivateRoute";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute><Home/></PrivateRoute>,
+    element: <PrivateRoute><Home/></PrivateRoute>
   },
   {
     path: "key",
