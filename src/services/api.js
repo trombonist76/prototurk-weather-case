@@ -6,7 +6,7 @@ export const validateKey = async (apiKey) => {
       params: {
         lat: 0,
         lon: 0,
-        appid: apiKey,
+        appid: apiKey
       },
     });
     const isValid = result.data.cod === 200;
@@ -15,3 +15,17 @@ export const validateKey = async (apiKey) => {
     return false;
   }
 };
+
+export async function fetchWeatherData(city, apiKey){
+  const result = await weatherAxios.get("forecast?",{
+    params: {
+      lat: city.latitude,
+      lon: city.longitude,
+      appid: apiKey,
+      units: "metric",
+      lang: "tr"
+    },
+  })
+
+  return result.data
+}
