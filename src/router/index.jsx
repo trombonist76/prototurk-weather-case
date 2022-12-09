@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home"
 import ApiKey from "@/pages/ApiKey"
 import PrivateRoute from "@/components/PrivateRoute";
+import CityWeather from "@/pages/CityWeather";
+import { cityLoader } from "./loaders";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +13,13 @@ const router = createBrowserRouter([
   {
     path: "key",
     element: <ApiKey/>
+  },
+  {
+    path: "city/:cityId",
+    element: <CityWeather/>,
+    loader: ({ params }) => {
+      return cityLoader(params.cityId);
+    },
   }
 ]);
 
