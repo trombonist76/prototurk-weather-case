@@ -1,13 +1,27 @@
 import cities from "@/assets/data/cities.json";
 import HomeSwitch from "@/components/Home/HomeSwitch";
-import HomeSearch from "@/components/Home/HomeSearch";
-import HomeCity from "@/components/Home/HomeCity";
-import HomeNotFound from "@/components/Home/HomeNotFound";
+import HomeMapLayout from "@/components/Home/HomeMapLayout";
+import HomeListLayout from "@/components/Home/HomeListLayout";
+import { setActiveCity } from "@/store/cityWeatherSlice";
 import { useMemo, useState } from "react";
 import { convertLocale } from "@/utils";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
+  const [mapLayout, setMapLayout] = useState(false);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const selectCityHandler = (id) => {
+    navigate(`city/${id}`)
+    dispatch(setActiveCity(id))
+  }
+
+  const toggleLayout = () => {
+    setMapLayout(!mapLayout)
+  }
   const filteredCities = useMemo(
     () =>
       cities.filter((city) =>
@@ -20,26 +34,26 @@ export default function Home() {
   };
 
   const clearInput = () => {
-    setInputValue("")
-  }
+    setInputValue("");
+  };
   return (
     <div className="min-h-full flex flex-col items-center gap-12 bg-dark-light py-10">
       <h1 className="text-3xl font-bold tracking-wider">
         Türkiye - İllere Göre Hava Durumu
       </h1>
-      <HomeSwitch />
-      <HomeSearch
-        className="w-1/3 bg-transparent border-2 border-slate-500 rounded-sm p-2 outline-none"
-        value={inputValue}
-        inputHandler={inputHandler}
-      />
-      {filteredCities.length > 0 
+      <HomeSwitch toggleLayout={toggleLayout} isMapLayout={mapLayout}/>
+      {mapLayout 
         ? (
-          <div className="grid grid-cols-4 w-4/5 2xl:w-2/3 gap-3">
-            {filteredCities.map((city) => <HomeCity city={city} key={city.id} />)}
-          </div>) 
+            <HomeMapLayout selectCityHandler={selectCityHandler}/>
+          ) 
         : (
-          <HomeNotFound clearFilter={clearInput}/>
+            <HomeListLayout
+              selectCityHandler={selectCityHandler}
+              inputValue={inputValue}
+              inputHandler={inputHandler}
+              filteredCities={filteredCities}
+              clearInput={clearInput}
+            />
       )}
     </div>
   );
