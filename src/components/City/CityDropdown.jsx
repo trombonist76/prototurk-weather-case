@@ -4,6 +4,7 @@ import { setActiveCity } from "@/store/cityWeatherSlice";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import useClickOutside from "@/hooks/useClickOutside";
 
 export default function CityDropdown() {
   const [inputValue, setInputValue] = useState("");
@@ -11,12 +12,13 @@ export default function CityDropdown() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const ref = useClickOutside(() => {
+    if (showOptions) return
+    setShowOptions(false)
+  })
+
   const inputHandler = (event) => {
     setInputValue(event.target.value);
-  };
-
-  const blurHandler = () => {
-    setShowOptions(false);
   };
 
   const focusHandler = () => {
@@ -39,10 +41,9 @@ export default function CityDropdown() {
   );
 
   return (
-    <div className="relative">
+    <div className="relative" ref={ref}>
       <input
         placeholder="Şehir seçin"
-        onFocusOut={blurHandler}
         onFocus={focusHandler}
         className="bg-transparent border border-slate-500 outline-none p-2 rounded-sm"
         type="text"
