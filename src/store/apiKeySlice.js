@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getApiKeyFromSession, saveApiKey } from '@/services/session'
 
 const initialState = {
-    secretKey: ''
+  secretKey: getApiKeyFromSession() || ''
 }
 
 export const apiKeySlice = createSlice({
@@ -9,7 +10,9 @@ export const apiKeySlice = createSlice({
   initialState,
   reducers: {
     setKey: (state, action) => {
+      if (!action.payload) return
       state.secretKey = action.payload
+      saveApiKey(action.payload)
     }
   },
 })

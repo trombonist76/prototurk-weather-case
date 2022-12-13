@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import cities from "@/assets/data/cities.json";
-import { fetchWeatherData } from "../services/api";
-import { capitalizeDescription, getHourAndDay } from "../utils";
+import { fetchWeatherData } from "@/services/api";
+import { capitalizeDescription, getHourAndDay } from "@/utils";
 
 const initialState = {
   activeCity: null,
