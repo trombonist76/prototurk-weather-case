@@ -6,7 +6,7 @@ import CityDropdown from "./CityDropdown";
 export default function CityHeader() {
   const navigate = useNavigate()
   const returnBackHandler = () => {
-    navigate(-1)
+    navigate("/")
   }
 
   return (

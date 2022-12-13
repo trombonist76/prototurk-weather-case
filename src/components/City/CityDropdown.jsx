@@ -29,7 +29,7 @@ export default function CityDropdown() {
     setInputValue("")
     setShowOptions(false)
     dispatch(setActiveCity(id))
-    navigate(`../city/${id}`)
+    navigate(`/city/${id}`)
   };
 
   const filteredCities = useMemo(

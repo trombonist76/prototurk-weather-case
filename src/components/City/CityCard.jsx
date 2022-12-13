@@ -8,8 +8,8 @@ export default function CityCard(props) {
         <span className='font-bold'>{props.day}</span>
         <IconWeather iconId={props.iconId}/>
         <div className='flex gap-2 text-sm'>
-            <span>{max} 'C</span>
-            <span className='text-slate-500'>{min} 'C</span>
+            <span>{max} °C</span>
+            <span className='text-slate-500'>{min} °C</span>
         </div>
     </div>
   )
