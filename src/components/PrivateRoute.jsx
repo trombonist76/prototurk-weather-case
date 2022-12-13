@@ -7,7 +7,7 @@ export default function PrivateRoute({children}) {
   const apiKey = useSelector(state => apiKeySelector(state))
     
   if(!apiKey){
-    return <Navigate to="key"></Navigate>
+    return <Navigate to="/key"></Navigate>
   }
 
   return children
