@@ -16,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "city/:cityId",
-    element: <CityWeather/>,
+    element: <PrivateRoute><CityWeather/></PrivateRoute>,
     loader: ({ params }) => {
       return cityLoader(params.cityId);
     },
