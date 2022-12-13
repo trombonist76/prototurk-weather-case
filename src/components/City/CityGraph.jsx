@@ -35,6 +35,7 @@ export default function CityGraph(props) {
 
         <Area
           type="monotone"
+          isAnimationActive={false}
           dataKey={props.dataKey}
           stroke={props.color}
           strokeWidth={2}
