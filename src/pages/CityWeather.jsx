@@ -1,60 +1,52 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoaderData } from "react-router-dom";
 import CityGraph from "@/components/City/CityGraph";
 import IconWeather from "@/components/IconWeather";
 import CityHeader from "@/components/City/CityHeader";
 import CityTabs from "@/components/City/CityTabs";
 import CityCard from "@/components/City/CityCard";
-import { fetchWeatherData } from "@/services/api";
-import { useQuery } from "react-query";
-import { apiKeySelector } from "@/store/apiKeySlice";
-import { getTabs } from "@/utils";
-import { useLoaderData } from "react-router-dom";
+import Loading from "@/components/Loading";
+import { getMinMaxFromDays, getTabs } from "@/utils";
 import {
-  capitalizeDescription,
-  getHourAndDay,
-  getMinMaxFromDays,
-} from "../utils";
+  fetchForecastData,
+  setActiveTimeRange,
+  activeTimeRangeSelector, 
+  forecastDataSelector
+} from "@/store/cityWeatherSlice";
 
-const initialState = { time: "", weatherCondition: "", iconId: null };
 
 export default function CityWeather() {
   const [activeTab, setActiveTab] = useState({});
-  const [activeTimeRange, setActiveTimeRange] = useState(initialState);
-  const apiKey = useSelector((state) => apiKeySelector(state));
+  const forecastData = useSelector(state => forecastDataSelector(state))
+  const activeTimeRange = useSelector(state => activeTimeRangeSelector(state))
+  const dispatch = useDispatch();
   const city = useLoaderData();
-  const { status, data } = useQuery("weatherData", () =>
-    fetchWeatherData(city, apiKey)
+  const dailyForecast = useMemo(
+    () => getMinMaxFromDays(forecastData.list),
+    [forecastData.list]
   );
-  const dailyForecast = useMemo(() => getMinMaxFromDays(data?.list), [data]);
   const tabs = getTabs();
   const setActiveTabHandler = (tab) => {
     setActiveTab(tab);
   };
 
   const timeRangeHandler = (selectedTimeRange) => {
-    const { description, id } = selectedTimeRange.weather.at(0);
-    const weatherCondition = capitalizeDescription(description);
-    const parsedDate = getHourAndDay(selectedTimeRange.dt_txt);
-    setActiveTimeRange({
-      weatherCondition,
-      iconId: id,
-      time: parsedDate,
-    });
+    dispatch(setActiveTimeRange(selectedTimeRange));
   };
 
   useEffect(() => {
-    setActiveTab(tabs.at(0));
-  }, []);
+    if(!forecastData.list) return 
+    dispatch(setActiveTimeRange());
+  }, [forecastData.list]);
 
   useEffect(() => {
-    if (!data?.list) return;
-    const firstTimeRange = data?.list.at?.(0);
-    timeRangeHandler(firstTimeRange);
-  }, [status]);
+    setActiveTab(tabs.at(0));
+    dispatch(fetchForecastData());
+  }, [city]);
 
-  if (!activeTimeRange.time || status === "loading") {
-    return <div>Loadingg...</div>;
+  if (forecastData.loading !== false || !activeTimeRange.iconId) {
+    return <Loading color={activeTab.color}/>
   }
 
   return (
@@ -69,7 +61,7 @@ export default function CityWeather() {
               className={"text-5xl"}
             />
             <span>
-              <b className="text-3xl">16</b> °C
+              <b className="text-3xl">{activeTimeRange.temp}</b> °C
             </span>
           </div>
           <CityTabs
@@ -78,9 +70,9 @@ export default function CityWeather() {
             setActiveTab={setActiveTabHandler}
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-right">
           <h1 className="font-bold text-3xl">{city.name}</h1>
-          <span className="text-right text-slate-500">
+          <span className="text-slate-500">
             {activeTimeRange.time} <br /> {activeTimeRange.weatherCondition}
           </span>
         </div>
@@ -88,14 +80,14 @@ export default function CityWeather() {
       <div className="flex flex-col gap-10 justify-center px-20">
         <CityGraph
           selectTimeRange={timeRangeHandler}
-          data={data?.list.slice(0, 8)}
+          data={forecastData.list.slice(0, 8)}
           dataKey={activeTab.dataKey}
           suffix={activeTab.suffix}
           color={activeTab.color}
         />
         <div className="flex items-center justify-evenly px-10">
-          {dailyForecast.map((forecast) => {
-            return <CityCard {...forecast} />;
+          {dailyForecast.map((forecast, index) => {
+            return <CityCard {...forecast} key={index} />;
           })}
         </div>
       </div>
