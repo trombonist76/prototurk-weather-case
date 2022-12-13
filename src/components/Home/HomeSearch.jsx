@@ -6,7 +6,7 @@ export default function HomeSearch(props) {
         placeholder="Şehirlerde ara"
         type="text"
         onChange={props.inputHandler}
-        defaultValue={props.value}
+        value={props.value}
         className={props.className}
       />
   );
