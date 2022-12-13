@@ -11,3 +11,18 @@ html, body, #root{
       @apply bg-dark text-white
     }
   }
+
+::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+::-webkit-scrollbar-track {
+  background: #555;
+  border-radius: 20px;
+  margin-block: .5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 20px;
+}
