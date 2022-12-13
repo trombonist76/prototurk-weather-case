@@ -2,21 +2,17 @@ import cities from "@/assets/data/cities.json";
 import HomeSwitch from "@/components/Home/HomeSwitch";
 import HomeMapLayout from "@/components/Home/HomeMapLayout";
 import HomeListLayout from "@/components/Home/HomeListLayout";
-import { setActiveCity } from "@/store/cityWeatherSlice";
 import { useMemo, useState } from "react";
 import { convertLocale } from "@/utils";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [mapLayout, setMapLayout] = useState(false);
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const selectCityHandler = (id) => {
     navigate(`city/${id}`)
-    dispatch(setActiveCity(id))
   }
 
   const toggleLayout = () => {

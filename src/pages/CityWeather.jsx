@@ -11,6 +11,7 @@ import { getMinMaxFromDays, getTabs } from "@/utils";
 import {
   fetchForecastData,
   setActiveTimeRange,
+  setActiveCity,
   activeTimeRangeSelector, 
   forecastDataSelector
 } from "@/store/cityWeatherSlice";
@@ -42,6 +43,7 @@ export default function CityWeather() {
 
   useEffect(() => {
     setActiveTab(tabs.at(0));
+    dispatch(setActiveCity(city.id))
     dispatch(fetchForecastData());
   }, [city]);
 
