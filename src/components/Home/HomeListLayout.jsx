@@ -13,7 +13,11 @@ export default function HomeListLayout(props) {
       {props.filteredCities.length > 0 ? (
         <div className="grid grid-cols-4 w-4/5 2xl:w-2/3 gap-3">
           {props.filteredCities.map((city) => (
-            <HomeCity selectCityHandler={props.selectCityHandler} city={city} key={city.id} />
+            <HomeCity
+              selectCityHandler={props.selectCityHandler}
+              city={city}
+              key={city.id}
+            />
           ))}
         </div>
       ) : (
