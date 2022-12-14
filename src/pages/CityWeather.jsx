@@ -12,21 +12,35 @@ import {
   fetchForecastData,
   setActiveTimeRange,
   setActiveCity,
-  activeTimeRangeSelector, 
-  forecastDataSelector
+  activeTimeRangeSelector,
+  forecastDataSelector,
 } from "@/store/cityWeatherSlice";
-
 
 export default function CityWeather() {
   const [activeTab, setActiveTab] = useState({});
-  const forecastData = useSelector(state => forecastDataSelector(state))
-  const activeTimeRange = useSelector(state => activeTimeRangeSelector(state))
+  const [selectedDayIndex, setSelectedDayIndex] = useState(null);
+  const forecastData = useSelector((state) => forecastDataSelector(state));
+  const activeTimeRange = useSelector((state) =>
+    activeTimeRangeSelector(state)
+  );
   const dispatch = useDispatch();
   const city = useLoaderData();
   const dailyForecast = useMemo(
     () => getMinMaxFromDays(forecastData.list),
     [forecastData.list]
   );
+  const graphData = useMemo(() => {
+    if (!dailyForecast) return;
+    const values = Object.values(dailyForecast)
+    const data = values.at(selectedDayIndex).list
+    
+    if(data.length < 2 && selectedDayIndex == 0){
+      const nextDayFirstForecast = values.at(1).list.at(0)
+      data.push(nextDayFirstForecast)
+    }
+    return data;
+  }, [selectedDayIndex, dailyForecast]);
+
   const tabs = getTabs();
   const setActiveTabHandler = (tab) => {
     setActiveTab(tab);
@@ -36,19 +50,19 @@ export default function CityWeather() {
     dispatch(setActiveTimeRange(selectedTimeRange));
   };
 
-  useEffect(() => {
-    if(!forecastData.list) return 
-    dispatch(setActiveTimeRange());
-  }, [forecastData.list]);
+  const selectedDayHandler = (index) => {
+    setSelectedDayIndex(index);
+  };
 
   useEffect(() => {
     setActiveTab(tabs.at(0));
-    dispatch(setActiveCity(city.id))
+    dispatch(setActiveCity(city.id));
     dispatch(fetchForecastData());
+    setSelectedDayIndex(0);
   }, [city]);
 
-  if (forecastData.loading !== false || !activeTimeRange.iconId) {
-    return <Loading color={activeTab.color}/>
+  if (forecastData.loading !== false) {
+    return <Loading color={activeTab.color} />;
   }
 
   return (
@@ -82,14 +96,22 @@ export default function CityWeather() {
       <div className="flex flex-col gap-10 justify-center px-20">
         <CityGraph
           selectTimeRange={timeRangeHandler}
-          data={forecastData.list.slice(0, 8)}
+          data={graphData}
           dataKey={activeTab.dataKey}
           suffix={activeTab.suffix}
           color={activeTab.color}
         />
-        <div className="flex items-center justify-evenly px-10">
+
+        <div className="flex items-center justify-evenly gap-6 px-10">
           {dailyForecast.map((forecast, index) => {
-            return <CityCard {...forecast} key={index} />;
+            return (
+                <CityCard
+                  {...forecast}
+                  key={index}
+                  isActive={index === selectedDayIndex}
+                  setSelectedDay={() => selectedDayHandler(index)}
+                />
+            )
           })}
         </div>
       </div>

@@ -33,7 +33,7 @@ export function getTabs() {
       id: 1,
       name: "Rüzgar",
       dataKey: (data) => data.wind.speed,
-      suffix: "km/h",
+      suffix: "km/s",
       color: "#A1C0EE",
     },
   ];
@@ -84,17 +84,22 @@ export function getMinMaxFromDays(data) {
   const dates = data.reduce((groupedObj, currDate) => {
     const day = getFormattedDate(currDate.dt_txt, "day")
     const currWeather = currDate.main
-    
+
     if (!groupedObj.hasOwnProperty(day)) {
       groupedObj[day] = {
         day,
         min: currWeather.temp_min,
         max: currWeather.temp_max,
         iconId: currDate.weather.at(0).id,
-        date: currDate.dt
+        date: currDate.dt,
+        list: []
       }
+
+      groupedObj[day].list.push(currDate)
       return groupedObj
     }
+
+    groupedObj[day].list.push(currDate)
 
     const addedDate = groupedObj[day]
     if (currWeather.temp_min < addedDate.min) addedDate.min = currWeather.temp_min
