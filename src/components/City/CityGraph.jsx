@@ -7,15 +7,19 @@ import {
   ResponsiveContainer
 } from "recharts";
 import { getHour } from "@/utils";
+import { useEffect } from "react";
 
 export default function CityGraph(props) {
-
   const handleClick = (data) => {
-    if(!data) return
-    const [ payloadObj ] = data.activePayload
-    const selectedTimeRange = payloadObj.payload
-    props.selectTimeRange(selectedTimeRange)
-  }
+    if (!data) return;
+    const [payloadObj] = data.activePayload;
+    const selectedTimeRange = payloadObj.payload;
+    props.selectTimeRange(selectedTimeRange);
+  };
+
+  useEffect(() => {
+    props.selectTimeRange(props.data.at(0));
+  }, [props.data]);
 
   return (
     <ResponsiveContainer width="100%" height={400}>
@@ -30,8 +34,11 @@ export default function CityGraph(props) {
             <stop offset="95%" stopColor={props.color} stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis dataKey={(label) => getHour(label.dt_txt)} tick={{fontSize:12}}/>
-        <Tooltip fontSize='80%' content={<></>}/>
+        <XAxis
+          dataKey={(label) => getHour(label.dt_txt)}
+          tick={{ fontSize: 12 }}
+        />
+        <Tooltip fontSize="80%" content={<></>} />
 
         <Area
           type="monotone"
@@ -40,15 +47,16 @@ export default function CityGraph(props) {
           stroke={props.color}
           strokeWidth={2}
           fillOpacity={1}
-          fill="url(#colorUv)">
-            <LabelList 
-              dataKey={props.dataKey} 
-              position="top" 
-              fill="#aaa" 
-              offset={15} 
-              formatter={(label) => `${parseInt(label)} ${props.suffix}`} 
-              fontSize='80%'>
-            </LabelList>
+          fill="url(#colorUv)"
+        >
+          <LabelList
+            dataKey={props.dataKey}
+            position="top"
+            fill="#aaa"
+            offset={15}
+            formatter={(label) => `${parseInt(label)} ${props.suffix}`}
+            fontSize="80%"
+          ></LabelList>
         </Area>
       </AreaChart>
     </ResponsiveContainer>
