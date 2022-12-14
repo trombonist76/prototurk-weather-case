@@ -8,7 +8,7 @@ const initialState = {
   activeTimeRange: {
     time: "",
     weatherCondition: "",
-    iconId: null
+    iconId: 300
   },
   forecastData: {
     loading: "idle",
