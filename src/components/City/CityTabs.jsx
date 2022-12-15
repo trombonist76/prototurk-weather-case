@@ -3,7 +3,7 @@ import classNames from "classnames";
 export default function CityOptions(props) {
   
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 justify-center text-sm sm:justify-start">
       {props.tabs.map((tab, index) => {
         return (
           <button

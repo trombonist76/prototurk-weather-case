@@ -5,7 +5,7 @@ import 'weather-react-icons/lib/css/weather-icons.css';
 export default function IconWeather(props) {
   return (
     <WeatherIcon iconId={props.iconId} 
-    className={classNames("text-6xl",{
+    className={classNames( props.className || "text-6xl",{
       "text-yellow-300": props.iconId === 800, 
       "text-blue-300": props.iconId === 500, 
       "text-red-300": props.iconId === 801, 

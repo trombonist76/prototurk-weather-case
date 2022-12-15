@@ -10,7 +10,7 @@ export default function CityHeader() {
   }
 
   return (
-    <div className="flex items-center justify-between h-24 bg-dark-light px-20">
+    <div className="flex items-center justify-between h-24 bg-dark-light lg:px-20 px-2">
       <button onClick={returnBackHandler} className="flex gap-2 items-center">
         <AiOutlineArrowLeft />
         Geri Dön

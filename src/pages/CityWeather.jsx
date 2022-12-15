@@ -66,18 +66,18 @@ export default function CityWeather() {
   }
 
   return (
-    <div className="flex flex-col gap-8 pb-8">
+    <div className="flex flex-col gap-8 pb-8 text-sm lg:text-base">
       <CityHeader />
-      <div className="flex justify-between px-20">
+      <div className="flex flex-col-reverse gap-6 sm:gap-0 sm:flex-row sm:justify-between px-2 lg:px-20">
         <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center sm:justify-start gap-4">
             <IconWeather
               iconId={activeTimeRange.iconId}
               night={false}
-              className={"text-5xl"}
+              className={"text-4xl lg:text-6xl"}
             />
             <span>
-              <b className="text-3xl">{activeTimeRange.temp}</b> °C
+              <b className="text-2xl">{activeTimeRange.temp}</b> °C
             </span>
           </div>
           <CityTabs
@@ -86,14 +86,14 @@ export default function CityWeather() {
             setActiveTab={setActiveTabHandler}
           />
         </div>
-        <div className="flex flex-col gap-2 text-right">
-          <h1 className="font-bold text-3xl">{city.name}</h1>
+        <div className="flex flex-col gap-2 text-center sm:text-right">
+          <h1 className="font-bold text-xl lg:text-3xl">{city.name}</h1>
           <span className="text-slate-500">
             {activeTimeRange.time} <br /> {activeTimeRange.weatherCondition}
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-10 justify-center px-20">
+      <div className="flex flex-col gap-10 justify-center lg:px-20">
         <CityGraph
           selectTimeRange={timeRangeHandler}
           data={graphData}
@@ -102,7 +102,7 @@ export default function CityWeather() {
           color={activeTab.color}
         />
 
-        <div className="flex items-center justify-evenly gap-6 px-10">
+        <div className="flex items-center gap-6 mx-10 overflow-x-auto mx-au">
           {dailyForecast.map((forecast, index) => {
             return (
                 <CityCard

@@ -6,8 +6,8 @@ export default function HomeMap(props) {
   }
 
   return (
-    <div className='w-2/3'>
-        <TurkeyMap onClick={clickHandler} showTooltip hoverable customStyle={{idleColor: '#444' ,hoverColor: '#fff'}}/>
+    <div className='w-full sm:w-3/4 lg:w-3/5'>
+      <TurkeyMap onClick={clickHandler} showTooltip hoverable customStyle={{idleColor: '#444' ,hoverColor: '#fff'}}/>
     </div> 
   )
 }

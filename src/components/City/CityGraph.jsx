@@ -8,8 +8,10 @@ import {
 } from "recharts";
 import { getHour } from "@/utils";
 import { useEffect } from "react";
+import useMobile from "@/hooks/useMobile";
 
 export default function CityGraph(props) {
+  const isMobile = useMobile()
   const handleClick = (data) => {
     if (!data) return;
     const [payloadObj] = data.activePayload;
@@ -22,10 +24,10 @@ export default function CityGraph(props) {
   }, [props.data]);
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={isMobile ? 250 : 400}>
       <AreaChart
         data={props.data}
-        margin={{ top: 50, right: 50, left: 50, bottom: 0 }}
+        margin={{ top: 20, right: 20, left: 20, bottom: 0 }}
         onClick={handleClick}
       >
         <defs>

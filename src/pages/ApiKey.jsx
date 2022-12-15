@@ -37,7 +37,7 @@ export default function ApiKey() {
   };
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="px-4 w-full md:w-2/3 lg:w-1/3 text-center flex flex-col gap-4">
+      <div className="px-4 w-full md:w-2/3 lg:w-2/4 xl:w-1/3 text-center flex flex-col gap-4">
         <KeyInput
           apiKey={apiKey}
           inputHandler={inputHandler}

@@ -33,8 +33,8 @@ export default function Home() {
     setInputValue("");
   };
   return (
-    <div className="min-h-full flex flex-col items-center gap-12 bg-dark-light py-10">
-      <h1 className="text-3xl font-bold tracking-wider">
+    <div className="min-h-full flex flex-col items-center gap-8 bg-dark-light py-10">
+      <h1 className="text-2xl sm:text-3xl text-center px-5 font-bold tracking-wider">
         Türkiye - İllere Göre Hava Durumu
       </h1>
       <HomeSwitch toggleLayout={toggleLayout} isMapLayout={mapLayout}/>

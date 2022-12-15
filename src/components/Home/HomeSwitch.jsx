@@ -9,7 +9,7 @@ export default function HomeSwitch(props, ref) {
   const isSwitchOnTop = useMemo(() => scrollPosition >= offsetTop, [scrollPosition])
 
   useEffect(() => {
-    const {top, right, bottom, left} = switchRef.current.getBoundingClientRect()
+    const {top} = switchRef.current.getBoundingClientRect()
     setOffsetTop(top);
   },[])
 
@@ -20,7 +20,7 @@ export default function HomeSwitch(props, ref) {
       })} 
       ref={switchRef}
     >
-      <button className="flex items-center justify-center gap-2 bg-dark p-2 rounded-full transition-colors">
+      <button className="text-sm sm:text-base flex items-center justify-center gap-2 bg-dark p-2 rounded-full transition-colors">
         <span
           onClick={props.toggleLayout}
           className={classNames("py-1.5 px-4 rounded-full transition-colors", {
