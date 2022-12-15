@@ -36,5 +36,5 @@ This repo contains the Prototurk React Weather App Test Case - 1 solution on the
 
 ## :film_strip: **Preview**
 
-![Preview-1](/src/assets/readme-imgs/preview-1.gif "Gif-1")
-![Preview-2](/src/assets/readme-imgs/preview-2.gif "Gif-2")
+![Preview-1](./src/assets/readme-imgs/preview-1.gif "Gif-1")
+![Preview-2](./src/assets/readme-imgs/preview-2.gif "Gif-2")
